@@ -1,0 +1,92 @@
+\pagebreak
+
+\subsection{\Sexpr{veranstaltungsname}}
+
+Dozent: \Sexpr{veranstaltungsdozent}
+
+%\subsubsection{Lehr-/Lerninhalte der Vorlesung}
+
+\noindent "Bewertung der Veranstaltung"
+
+<<echo=FALSE, fig.width=7.8, fig.height=10.2>>=
+
+long <- reshape(veranstaltungsdaten, dir = "long", varying = 1:13, sep="_", drop = 14:18)
+
+# write(paste("long: ", dim(long)), file= "logger.csv", append = TRUE) 
+
+
+# levels(long$k1a) <- gsub("sehr ", "sehr\n ", c(levels(long$k1a)))
+# levels(long$q1) <- gsub("für diese Veranstaltung irrelevant bzw. kann ich (derzeit) nicht beurteilen", "für diese\n Veranstaltung\n irrelevant\n bzw. kann ich\n (derzeit)\n nicht\n beurteilen", c(levels(long$k1a)), fixed=TRUE)
+long$time <- factor(long$time, levels=c("1","2","3","4","5", "6", "7", "8", "9", "10", "11", "12", "13", "14"),labels=c("Für die Veranstaltung entsprach die kalkulierte Selbststudienzeit der Realität.", "Für die Veranstaltung entsprach die kalkulierte Präsenzstudienzeit der Realität.", "Die Veranstaltung war gut strukturiert.", "Die Veranstaltung wurde methodisch so durchgeführt, dass ich gut eigenständig arbeiten konnte.", "Die Inhalte der Veranstaltung kann ich praktisch umsetzen.", "Der/die Lehrende war im Umgang mit den Studierenden freundlich.", "Ich habe mich durch den/die Lehrende gut betreut gefühlt.", "Der/die Lehrende war auch außerhalb der Lehrveranstaltung für Rückfragen gut erreichbar.", "Der/die Lehrende hat Fragen der Studierenden schnell und verständlich beantwortet.", "Der/die Dozenten hatten genug Zeit für individuelle Unterstützung bei der Fertigung.",  "Die Wartezeiten an den Arbeitsflächen waren angemessen.", "Der Umfang der Arbeitszeit mit den Testpatienten war gut.", "Für die Veranstaltung war ich ausreichend mit Materialien versorgt.", "Bitte beschreiben Sie uns aus Ihrer Sicht das Problem bei der Materialversorgung. Wie könnte das Problem aus Ihrer Sicht gut behoben werden?")) 
+scale7 <- c("#e6e8f1", "#e6e8f1", "#e6e8f1", "#e6e8f1", "#e6e8f1", "#e6e8f1", "#e6e8f1", "red")
+
+ggplot(long,aes(x=q1)) +
+  scale_x_discrete(drop=FALSE) +
+  scale_y_continuous(breaks=mybreaks) +
+  scale_fill_discrete(drop=FALSE) + 
+  geom_bar(stat="count", fill="#66B2FF", colour="black") +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 0.5, vjust=0.5, size=9, colour = "black"), 
+    axis.text.y = element_text(size=7, colour = "black"),
+    axis.title=element_text(size=9)
+    ) +
+  ylab("Häufigkeiten je Antwort") + 
+  xlab("") +
+  facet_wrap( ~ time, ncol=1)
+
+@
+
+\pagebreak
+
+
+\noindent "Bitte benoten Sie die Veranstaltung."
+
+<<echo=FALSE, fig.width=7.8, fig.height=1.3>>=
+noten_numeric <- studiengangsdaten$q5
+noten_numeric <- as.numeric(levels(noten_numeric)[noten_numeric])
+schnitt <- round(mean(noten_numeric, na.rm = TRUE), digits = 2)
+streuung <- round(sd(noten_numeric, na.rm = TRUE), digits = 2)
+
+ggplot(veranstaltungsdaten,aes(x=q5)) +
+  scale_x_discrete(drop=FALSE) +
+  scale_y_continuous(breaks=mybreaks) +
+  scale_fill_discrete(drop=FALSE) + 
+  geom_bar(stat="count", fill="#66B2FF", colour="black") +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 0.5, vjust=0.5, size=9, colour = "black"), 
+    axis.text.y = element_text(size=7, colour = "black"),
+    axis.title=element_text(size=9)
+    ) +
+  ylab("Häuf. je Ant.") + 
+  xlab("")
+  
+@
+
+% Durchschnittsnote: \Sexpr{schnitt} (Standardabweichung: \Sexpr{streuung})
+
+
+\noindent "Haben Sie weiteres Feedback zu der Veranstaltung?"
+
+
+<<include=FALSE>>=
+out2 = NULL
+
+kommentare <- NULL
+kommentare <- veranstaltungsdaten$q5_comment[!is.na(veranstaltungsdaten$q5_comment)]
+
+if (length(kommentare)>0){
+  # remove superfluous line feeds on start and end
+  kommentare <- gsub("^\n+", "", kommentare)
+  kommentare <- gsub("\n+$", "", kommentare)
+  # replace % sign
+  kommentare <- gsub("%", "\\%", kommentare, fixed=TRUE)
+  kommentare <- gsub("&", "\\&", kommentare, fixed=TRUE)
+  kommentare <- gsub("\n", "\\\\\\\\ ", kommentare)
+  kommentare <- gsub('\"', "''", kommentare, fixed=TRUE)
+    out2 <- c(paste(kommentare, collapse=collapseString))
+}else{
+  out2 <- c("keine Angaben")
+}
+@
+
+\Sexpr{paste(out2, collapse = '\\\\ ')}

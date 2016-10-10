@@ -1,0 +1,151 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\renewcommand{\familydefault}{\sfdefault}
+\geometry{a4paper, total={210mm,297mm}, left=20mm, right=20mm, top=15mm, tmargin=39mm, headheight=70mm, bottom=20mm}
+\pagestyle{fancy}
+\fancyhead{} 
+\fancyhead[RO,RE]{\includegraphics{img/pfh_logo3.png}}
+\fancyfoot{} 
+\fancyfoot[RO,RE]{\thepage}
+\thispagestyle{fancy}
+\renewcommand{\familydefault}{\sfdefault}
+
+<<include=FALSE>>=
+modulnamen <- data.frame(read.csv("mn.csv", sep=";", encoding = "UTF-8"))
+modulnamen$Studiengang <- factor(modulnamen$Studiengang)
+veranstaltungsnamen <- data.frame(read.csv("vn.csv", sep=";", encoding = "UTF-8"))
+veranstaltungsnamen$Studiengang <- factor(veranstaltungsnamen$Studiengang)
+# veranstaltungsnamen$Mod_ID <- factor(veranstaltungsnamen$Mod_ID)
+
+# itemlevels <- read.csv2("itemlevels.csv", header = TRUE, sep = ";", stringsAsFactors = TRUE)
+# titles <- read.csv2("cover_title.csv", header = TRUE, sep = ";", encoding = "UTF-8")
+
+        studiengaenge <- list(
+          BScO1 = "Campusstudiengang\\\\ B.Sc. Orthobionik\\\\ 1. Semester",
+          BScO2 = "Campusstudiengang\\\\ B.Sc. Orthobionik\\\\ 2. Semester",
+          BScO3 = "Campusstudiengang\\\\ B.Sc. Orthobionik\\\\ 3. Semester",
+          BScO4 = "Campusstudiengang\\\\ B.Sc. Orthobionik\\\\ 4. Semester",
+          BScO5 = "Campusstudiengang\\\\ B.Sc. Orthobionik\\\\ 5. Semester",
+          BScO6 = "Campusstudiengang\\\\ B.Sc. Orthobionik\\\\ 6. Semester",
+          BScO7 = "Campusstudiengang\\\\ B.Sc. Orthobionik\\\\ 7. Semester",
+          BScO8 = "Campusstudiengang\\\\ B.Sc. Orthobionik\\\\ 8. Semester",
+          MScO1 = "Campusstudiengang\\\\ M.Sc. Medizinische Orthobionik\\\\ 1. Semester"
+)
+        
+        studiengang_id <- unlist(strsplit(studiengang_modul_id, "_"))[1]
+        studiengang <- studiengaenge[[studiengang_id]]
+        title <- studiengang
+
+        
+        offsets <- list(BScO1 = 4, BScO2 = 4, BScO3 = 4, BScO4 = 4, BScO5 = 4, BScO6 = 4, BScO7 = 4, BScO8 = 4, MScO1 = 4)
+
+        dozentenwahl <- FALSE
+        dozent <- ""
+        
+        
+@
+
+
+
+\begin{document}
+\title{Evaluation der Vorlesungen\\ 
+\Sexpr{title}
+}
+\date{
+\Sexpr{datum}
+}
+
+\author{}
+\maketitle
+\renewcommand*\contentsname{Module}
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+<<run-all, include=FALSE>>=
+# Dateiname
+  data <-
+  read.csv(inFile$datapath, 
+           quote = "'\"", 
+           na.strings = c("", "\"\""), 
+           encoding = "UTF-8")
+#data <-
+#read.csv(
+#    "data/2Sem.csv", quote = "'\"", na.strings = #c("", "\"\""), stringsAsFactors =
+#      FALSE, encoding = "UTF-8")
+
+source("generic_syntax_file.r", encoding = "UTF-8", local = TRUE)
+
+write("", file="logger.csv")
+write("", file="loggermod.csv")
+# select complete answers only
+data <- data[!is.na(data$submitdate),]
+# write.csv(head(data[1:8,c(1:3,9:15)]), file = "logger.csv")
+fragen_veranstaltung <- 14 # questions per Fach
+fragen_statistik <- 12 # Sonderfall Statistik in BSCO4
+fragen_planspiel <- 17 # Sonderfall Planspiel in MSCO1
+fragen_ethik <- 15 # Sonderfall Rechtliche Aspekte in MSCO1
+fragen_werkstoffkunde <- 16 # Sonderfall Werlstoffkunde in MSCO1
+fragen_praxis <- 18 # questions per Fach
+fragen_modul <- 9 # questions for complete module 
+offset <- offsets[[studiengang_id]] # col number of first module question
+spalten <- ncol(data)
+#module <- (spalten - offset + 1) / fragen
+# write.csv(c("module: ", module), file = "logger.csv", append = TRUE)
+
+library(knitr)
+out = NULL
+
+# if "Alle" was selected, analyse all modules
+#alle_dozenten <- length(unlist(strsplit(studiengang_modul_id, "_"))) == 1
+
+anzahl_module <- length(modulnamen$Modul[modulnamen$Studiengang==studiengang_id])
+# analysis per module
+v <- 1 # Veranstaltungs ID
+for (i in 1:anzahl_module){
+      
+      anzahl_ausgewerteter_veranstaltungen <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 0])
+      anzahl_ausgewerteter_praxis <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 1])
+      anzahl_ausgewerteter_statistik <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 2])
+      anzahl_ausgewerteter_planspiel <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 3])
+      anzahl_ausgewerteter_ethik <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 4])
+      anzahl_ausgewerteter_werkstoffkunde <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 5])
+
+            start <- ((i-1)*fragen_modul)+
+              (anzahl_ausgewerteter_veranstaltungen*fragen_veranstaltung)+
+              (anzahl_ausgewerteter_praxis*fragen_praxis) + 
+              (anzahl_ausgewerteter_statistik*fragen_statistik) + 
+              (anzahl_ausgewerteter_planspiel*fragen_planspiel) + 
+              (anzahl_ausgewerteter_ethik*fragen_ethik) + 
+              (anzahl_ausgewerteter_werkstoffkunde*fragen_werkstoffkunde) + 
+              offset + 
+              1
+      # write.csv(anzahl_veranstaltungen, file = "logger.csv")
+      modulname <- modulnamen$Modul[modulnamen$Studiengang==studiengang_id][i]
+      dozent <- modulnamen$Dozent[modulnamen$Studiengang==studiengang_id][i]
+      dozentenwahl <- modulnamen$Dozentenwahl[modulnamen$Studiengang==studiengang_id][i]
+# write.csv(paste("start: ", start, "i: ", i, "modulname: ", modulname, "ver: ", anzahl_ausgewerteter_veranstaltungen, "prax: ", anzahl_ausgewerteter_praxis), file = "logger.csv")
+#      write.csv(head(data), file = "logger.csv")
+      # write(paste("i: ", i, "start: ", start,"modulname: ", modulname, "ver: ", anzahl_ausgewerteter_veranstaltungen, "prax: ", anzahl_ausgewerteter_praxis, "offset: ", offset, "fm: ", fragen_modul, "fv: ", fragen_veranstaltung), file="logger.csv", append = TRUE)
+      source("label_items.r", encoding = "UTF-8", local = TRUE)
+
+       studiengangsdaten <- data[,start:spalten]
+#      studiengangsdaten <- data[,start:(start+fragen-1)]
+      #write.csv(head(studiengangsdaten[1:5,1:5]), file = "logger.csv", append = TRUE)
+
+      # studiengangsdaten <- studiengangsdaten[!is.na(studiengangsdaten[,2]),]
+      if(nrow(studiengangsdaten)==0){
+        out = c(out, knit_child('keineAntworten.rnw'))
+      }else{
+        out = c(out, knit_child('modulanalyse.rnw'))
+    }
+}
+  
+@
+
+%\Sexpr{paste(mydebugger, collapse = '\n ')}
+
+\Sexpr{paste(out, collapse = '\n ')}
+\end{document}

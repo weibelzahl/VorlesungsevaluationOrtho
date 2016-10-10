@@ -1,0 +1,64 @@
+Studiengang;Mod_ID;Veranstaltung;Dozent;Praxis
+BScO1;1;Anatomie I und Physiologie I;Prof. Braatz;0
+BScO1;2;Orthetik I Theorie;Herr Friedrich;0
+BScO1;2;Praxisanwendungen Orthetik I;Herr Friedrich;1
+BScO1;2;Grundlagen der praktischen Orthobionik;Herr Hildebrandt/ Herr Jenckel;0
+BScO1;2;Einführung in den Klinkalltag;Prof. Blumentritt;0
+BScO1;2;Patientenführung und -kommunikation;Herr Mauritz;0
+BScO1;2;Grundlagen der Diagnostik;Prof. Braatz;0
+BScO1;2;Ethik in der Medizin;Frau Müller Hoßbach;0
+BScO1;3;Werkstoffkunde: Teil Metalle;Prof. Siebert, Prof. Degenhardt;0
+BScO1;3;Werkstoffkunde: Teil Faserverbundwerkstoffe;Prof. Siebert, Prof. Degenhardt;0
+BScO1;3;Physik: Elektrotechnik;Prof. Schmidt;0
+BScO1;3;Physik: Teil Mechanik;Prof. Schmidt;0
+BScO2;1;Anatomie II;Prof. Braatz;0
+BScO2;2;Biomechanik I (inkl. Labor);Prof. Blumentritt;0
+BScO2;2;Orthetik II Theorie;Herr Hildebrandt / Herr Jenckel;0
+BScO2;2;Praxisanwendungen Orthetik II (AFO);Herr Hildebrandt / Herr Jenckel;1
+BScO2;2;Prothetik I Theorie;Herr Hildebrandt / Herr Jenckel;0
+BScO2;2;Praxisanwendungen Prothetik I (Vorfußprothetik);Herr Hildebrandt / Herr Jenckel;1
+BScO2;3;Werkstoffkunde/Chemie;Prof. Siebert, Prof. Degenhardt;0
+BScO2;3;Technische Mechanik;Prof. Degenhardt;0
+BScO3;1;Pathologie I und II;Prof. Braatz;0
+BScO3;2;Biomechanik II (inkl. Labor);Prof. Blumentritt;0
+BScO3;2;Orthetik III (KO Knieorthetik);Herr Hildebrandt / Herr Jenckel;0
+BScO3;2;Praxisanwendungen Orthetik III (KO Knieorthetik);Herr Hildebrandt / Herr Jenckel;1
+BScO3;2;Prothetik II Theorie;Herr Hildebrandt / Herr Jenckel;0
+BScO3;2;Praxisanwendungen Prothetik II (Unterschenkelprothetik);Herr Hildebrandt / Herr Jenckel;1
+BScO3;3;IT Grundlagen;Herr Huchthausen;0
+BScO3;3;Messtechnik;Prof. Fehren;0
+BScO4;1;Biomechanik III (inkl. Labor);Prof. Blumentritt;0
+BScO4;1;Orthetik IV Theorie;Herr Hildebrandt / Herr Jenckel;0
+BScO4;1;Praxisanwendungen Orthetik IV (KAFO);Herr Hildebrandt / Herr Jenckel;1
+BScO4;1;Prothetik III Theorie;Herr Hildebrandt / Herr Jenckel;0
+BScO4;1;Praxisanwendungen Prothetik III (Knie-Exprothetik);Herr Hildebrandt / Herr Jenckel;1
+BScO4;2;Statistik;Herr Ahlborn;2
+BScO4;3;Medizinproduktrecht;Prof. Rohlfing;0
+BScO4;3;Qualitätsmanagement;Herr Hille;0
+BScO4;3;Technisches Zeichnen;Herr Bröhl;0
+BScO5;1;Biomechanik IV (inkl. Labor);Prof. Blumentritt;0
+BScO5;1;Orthetik V Theorie;Herr Hildebrandt / Herr Jenckel;0
+BScO5;1;Praxisanwendungen Orthetik V (Korsett);Herr Hildebrandt / Herr Jenckel;1
+BScO5;1;Praxisanwendungen Orthetik V (Mieder);Herr Hildebrandt / Herr Jenckel;1
+BScO5;1;Prothetik IV Theorie;Herr Hildebrandt / Herr Jenckel;0
+BScO5;1;Praxisanwendungen Prothetik IV (Oberschenkelprothetik);Herr Hildebrandt / Herr Jenckel;1
+BScO5;2;Objektivierung und Analyse Neurologie und Orthetik;Dr. Hugill;0
+BScO5;3;Psychologie I;Prof. Gutmann;0
+BScO7;1;Hilfsmittel zur Rehabilitation;Herr Eickemeyer;0
+BScO7;1;CAD-CAM-Systeme in der TO;Herr Bröhl;0
+BScO7;2;Neuroprothetik I und II;Prof. Braatz;0
+BScO7;3;Labor Rollstuhl;Herr Eickemeyer;0
+BScO7;3;Patientenführung;Herr Mauritz;0
+MScO1;1;Strategisches Management;Prof. Herold;0
+MScO1;1;Management Accounting; Prof. Albe;0
+MScO1;1;Planspiel/ Fallstudie; Prof. Albe;3
+MScO1;2;Anatomie, Physiologie und Amputationstechniken; Prof. Braatz;0
+MScO1;3;Biomechanik; Prof. Blumentritt;0
+MScO1;3;Biomechanik Labor; Prof. Blumentritt;0
+MScO1;4;Orthesen- und Prothesenversorgung und Abnahmekriterien (Wissenschaftliches Orthobionik);Prof. Frömmel;0
+MScO1;4;Angewandte Statistik; Prof. Vollmer;0
+MScO1;4;Rechtliche und ethische Aspekte; Prof. Gutmann;4
+MScO1;5;Werkstoffkunde; Prof. Unckenbold;5
+MScO1;5;Modellbildung, Simulation und Adaptive Verbundwerkstoffstrukturen; Prof. Fehren;3
+MScO1;6;Psychosoziale Fragestellungen und Patientenführung; Prof. Gutmann;0
+MScO1;6;Ausbildereignung;N.N.;0
