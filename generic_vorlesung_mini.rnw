@@ -83,13 +83,15 @@ write("", file="loggermod.csv")
 # select complete answers only
 data <- data[!is.na(data$submitdate),]
 # write.csv(head(data[1:8,c(1:3,9:15)]), file = "logger.csv")
-fragen_veranstaltung <- 14 # questions per Fach
-fragen_statistik <- 12 # Sonderfall Statistik in BSCO4
-fragen_planspiel <- 17 # Sonderfall Planspiel in MSCO1
-fragen_ethik <- 15 # Sonderfall Rechtliche Aspekte in MSCO1
-fragen_werkstoffkunde <- 16 # Sonderfall Werlstoffkunde in MSCO1
-fragen_praxis <- 18 # questions per Fach
-fragen_modul <- 9 # questions for complete module 
+fragen_veranstaltung <- 14 # Fall 0; questions per Fach
+fragen_praxis <- 18 # Fall 1; questions per Fach
+fragen_statistik <- 12 # Fall 2; Sonderfall Statistik in BSCO4
+fragen_planspiel <- 17 # Fall 3; Sonderfall Planspiel in MSCO1 und Betriebsführung BScO6
+fragen_ethik <- 15 # Fall 4; Sonderfall Rechtliche Aspekte in MSCO1
+fragen_werkstoffkunde <- 16 # Fall 5; Sonderfall Werlstoffkunde in MSCO1
+fragen_armothetik <- 15 # Fall 6; Sonderfall Statistik in BSCO6
+fragen_prothetikv <- 29 # Fall 7; Sonderfall Statistik in BSCO6
+fragen_modul <- 9 # jedes neue Modul (mehrere Veranstaltungen) questions for complete module 
 offset <- offsets[[studiengang_id]] # col number of first module question
 spalten <- ncol(data)
 #module <- (spalten - offset + 1) / fragen
@@ -112,6 +114,8 @@ for (i in 1:anzahl_module){
       anzahl_ausgewerteter_planspiel <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 3])
       anzahl_ausgewerteter_ethik <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 4])
       anzahl_ausgewerteter_werkstoffkunde <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 5])
+      anzahl_ausgewerteter_armothetik <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 6])
+      anzahl_ausgewerteter_prothetikv <- length(veranstaltungsnamen$Mod_ID[veranstaltungsnamen$Studiengang ==studiengang_id & veranstaltungsnamen$Mod_ID < i & veranstaltungsnamen$Praxis == 7])
 
             start <- ((i-1)*fragen_modul)+
               (anzahl_ausgewerteter_veranstaltungen*fragen_veranstaltung)+
@@ -120,6 +124,8 @@ for (i in 1:anzahl_module){
               (anzahl_ausgewerteter_planspiel*fragen_planspiel) + 
               (anzahl_ausgewerteter_ethik*fragen_ethik) + 
               (anzahl_ausgewerteter_werkstoffkunde*fragen_werkstoffkunde) + 
+              (anzahl_ausgewerteter_armothetik*fragen_armothetik) + 
+              (anzahl_ausgewerteter_prothetikv*fragen_prothetikv) + 
               offset + 
               1
       # write.csv(anzahl_veranstaltungen, file = "logger.csv")
